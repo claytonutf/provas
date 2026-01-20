@@ -1,71 +1,82 @@
-# **Segurança em aplicações web**
-# Prof. Clayton Kossoski
+# 🧾 Sistema Simplificado de Controle de Pedidos em C++
+### Desenvolvido por: Clayton Kossoski @ jan/2026
 
-**Protocolo HTTPS, técnicas de ataque, prevenção e monitoramento, criptografia, chaves assimétricas e certificados digitais**
+## 📌 Visão Geral
 
+Este projeto implementa um **Sistema Simplificado de Controle de Pedidos**, desenvolvido em **C++ moderno (C++11+)**, com foco em **boas práticas de Engenharia de Software**.
 
-# Entendendo a Injeção de SQL (SQL Injection)
+Ele foi concebido como **atividade didática para ensino superior**, permitindo que os alunos relacionem conceitos da linguagem C++ com princípios fundamentais de **qualidade, manutenibilidade e evolução de software**.
 
-Este README explica a vulnerabilidade de Injeção de SQL (SQLI), suas
-causas e a solução mais eficaz, baseado em um formato de slides
-didático.
+---
 
-## 🛡️ O Que é e Como Ocorre
+## 🎯 Objetivos de Aprendizagem
 
-### 1. O Conceito
+Ao estudar e executar este projeto, o aluno deverá ser capaz de:
 
-A Injeção de SQL (SQL Injection) é uma falha de segurança que ocorre
-quando um atacante insere código SQL malicioso através de campos de
-entrada de dados.
+- Aplicar conceitos de **C++ moderno (C++11 ou superior)**
+- Utilizar **encapsulamento, abstração e modularização**
+- Compreender e aplicar **boas práticas de Engenharia de Software**
+- Relacionar decisões de projeto com:
+  - Manutenibilidade
+  - Extensibilidade
+  - Clareza do código
+- Entender como C++ pode ser usado para construir **sistemas reais**
 
-Objetivos do ataque: - Burlar autenticação
-- Extrair dados sigilosos
-- Modificar ou deletar informações
+---
 
-### 2. A Causa Raiz: Concatenação de Strings
+## 🧠 Contexto do Problema
 
-A vulnerabilidade ocorre quando o sistema cria consultas SQL
-concatenando diretamente os valores recebidos do usuário.
+Uma empresa deseja desenvolver um **sistema interno de controle de pedidos**, com as seguintes funcionalidades:
 
-**Exemplo vulnerável:**
+- Cadastro de produtos
+- Registro de pedidos contendo múltiplos itens
+- Cálculo do valor total do pedido
+- Estrutura de código preparada para **futuras extensões**
 
-``` javascript
-const query = "SELECT * FROM users WHERE username = '" + usuario + "' AND password = '" + senha + "'";
+O sistema é executado em modo **console**, simulando o funcionamento básico do domínio do problema.
+
+---
+
+## 🏗️ Arquitetura do Projeto
+
+O sistema foi projetado com **alta coesão** e **baixo acoplamento**, seguindo o princípio da **Responsabilidade Única (SRP)**.
+
+### 📦 Classes Principais
+
+| Classe | Responsabilidade |
+|------|------------------|
+| `Produto` | Representar um produto com nome e preço |
+| `ItemPedido` | Associar um produto a uma quantidade |
+| `Pedido` | Gerenciar itens e calcular o valor total |
+
+---
+
+## 🧱 Decisões de Projeto Importantes
+
+- Uso de **encapsulamento** (`private`)
+- Acesso aos dados via **métodos públicos**
+- Uso de **STL (`std::vector`, `std::string`)**
+- Uso de **RAII** (sem `new` / `delete`)
+- Uso de:
+  - `const correctness`
+  - Range-based `for`
+- Código preparado para:
+  - Separação em `.h` / `.cpp`
+  - Inclusão de persistência
+  - Evolução para outros domínios
+
+---
+
+## Compilação e execução
+```bash
+g++ -std=c++11 main.cpp -o controle_pedidos
+
+./controle_pedidos
 ```
 
-### 3. A Exploração (Bypass)
+## 🧩 Estrutura Atual do Projeto
 
-O atacante usa entradas que fecham a string e injetam SQL.
-
-**Payload clássico:**
-
-    ' OR '1'='1' --
-
-**Consulta resultante:**
-
-    SELECT * FROM users WHERE username = '' OR '1'='1'
-
-------------------------------------------------------------------------
-
-## 🛡️ Como Prevenir a Injeção de SQL
-
-### 1. Solução Essencial: Prepared Statements
-
-Use consultas parametrizadas para separar comando e dados.
-
-**Exemplo seguro em Node.js/SQLite:**
-
-``` javascript
-const query = "SELECT * FROM users WHERE username = ? AND password = ?";
-db.get(query, [usuario, senha], (err, row) => { ... });
-```
-
-### 2. Por que Funciona
-
-Com Prepared Statements, o banco interpreta o input como dado literal,
-impedindo execução de comandos maliciosos.
-
-### 3. Boas Práticas
-
--   Usar ORMs como Sequelize ou Prisma
--   Aplicar Princípio do Mínimo Privilégio
+```text
+controle-pedidos/
+├── main.cpp
+└── README.md
